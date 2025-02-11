@@ -1,23 +1,33 @@
-FROM php:8.1-fpm-alpine
+# Use official PHP image with required extensions
+FROM php:8.2-fpm
 
 # Install system dependencies
-RUN apk add --no-cache git curl libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev gd-dev zip libzip-dev
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libpq-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd \
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql pgsql gd zip exif pcntl
-
-# Get latest Composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/html
 
-# Copy existing application directory contents
-COPY . /var/www
+# Copy Laravel files
+COPY . .
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www
+# Install Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# Expose port 9000 and start php-fpm server
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Expose port
 EXPOSE 9000
+
 CMD ["php-fpm"]

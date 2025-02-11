@@ -56,3 +56,28 @@ php artisan migrate
 composer run dev
 ```
 Visit `http://localhost:8000` in your browser.
+
+## Using Docker
+
+### Install Dependencies
+```bash
+composer install
+npm install
+```
+
+### Build the react app
+```bash
+npm run build
+```
+
+### Run docker compose
+```bash
+docker compose up --build
+```
+
+### Run migration in docker
+```bash
+docker exec -it laravel_app php artisan migrate
+```
+
+Visit `http://localhost:8000` in your browser.
