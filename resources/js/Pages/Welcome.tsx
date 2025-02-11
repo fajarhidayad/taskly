@@ -3,6 +3,8 @@ import {Head} from '@inertiajs/react';
 import NavBar from "@/Components/NavBar";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import {CheckIcon} from "lucide-react";
+import {ReactNode} from "react";
 
 export default function Welcome({
                                     auth,
@@ -32,6 +34,7 @@ export default function Welcome({
                 </div>
             </section>
 
+            {/* FEATURES SECTION */}
             <section className={'grid grid-cols-3 gap-5 container mx-auto py-5'}>
                 <div className={'bg-white/20 ring-1 ring-black/5 p-5 rounded-lg isolate backdrop-blur shadow-lg'}>
                     <h2 className={'font-semibold text-lg mb-3'}>Smart Task Management</h2>
@@ -52,6 +55,52 @@ export default function Welcome({
                     </p>
                 </div>
             </section>
+
+            {/* PRICING SECTION */}
+            <section className={'container mx-auto py-10 flex flex-col items-center justify-center'}>
+                <h2 className={'text-4xl font-semibold mb-7'}>Pricing</h2>
+                <div className={'flex justify-center space-x-4'}>
+                    <div className={'flex flex-col rounded-lg py-7 px-8 border border-gray-300'}>
+                        <h3 className={'font-semibold text-lg mb-6'}>Free Plan (Forever Free)</h3>
+                        <h3 className={'font-semibold text-3xl mb-6'}>Rp0<span
+                            className={'text-base font-normal text-gray-500'}>/month</span></h3>
+                        <ul className={'space-y-2'}>
+                            <PricingFeaturesItem>Create and manage unlimited tasks</PricingFeaturesItem>
+                            <PricingFeaturesItem>Basic reminders & notifications</PricingFeaturesItem>
+                            <PricingFeaturesItem>Simple task categories</PricingFeaturesItem>
+                        </ul>
+                        <PrimaryButton className={'w-full mt-auto'}>Try now</PrimaryButton>
+                    </div>
+                    <div className={'rounded-lg py-7 px-8 border border-gray-300 space-y-6'}>
+                        <h3 className={'font-semibold text-lg'}>Pro Plan</h3>
+                        <h3 className={'font-semibold text-3xl'}>Rp59,000<span
+                            className={'text-base font-normal text-gray-500'}>/month</span></h3>
+                        <ul className={'space-y-2'}>
+                            <PricingFeaturesItem>Everything in Free Plan</PricingFeaturesItem>
+                            <PricingFeaturesItem>Advanced reminders & recurring tasks</PricingFeaturesItem>
+                            <PricingFeaturesItem>Priority task management</PricingFeaturesItem>
+                            <PricingFeaturesItem>Dark mode & custom themes</PricingFeaturesItem>
+                        </ul>
+                        <PrimaryButton className={'w-full'}>Try now</PrimaryButton>
+                    </div>
+                </div>
+            </section>
+
+            <section className={'py-10 flex flex-col items-center justify-center bg-violet-500'}>
+                <div className={'container mx-auto text-center max-w-2xl'}>
+                    <h2 className={'text-white text-5xl font-semibold mb-3'}>Get Started Today</h2>
+                    <p className={'text-xl text-violet-200 mb-5'}>Stay organized and boost your productivity with TaskFlow.
+                        Sign up now and take control of your tasks effortlessly!</p>
+                    <SecondaryButton className={'border-white text-white'}>Get started</SecondaryButton>
+                </div>
+            </section>
         </>
     );
+}
+
+function PricingFeaturesItem(props: { children: ReactNode }) {
+    return <li className={'flex items-center space-x-1'}>
+        <CheckIcon className={'text-green-500'} size={20}/>
+        <p>{props.children}</p>
+    </li>
 }
