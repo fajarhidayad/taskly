@@ -59,9 +59,24 @@ Visit `http://localhost:8000` in your browser.
 
 ## Using Docker
 
+### Set Up Environment Variables
+Copy the `.env.example` file and update the database configuration:
+```bash
+cp .env.example .env
+```
+Update `.env`:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=taskly
+// add according to what is in the local machine
+DB_USERNAME=
+DB_PASSWORD=
+```
+
 ### Install Dependencies
 ```bash
-composer install
 npm install
 ```
 
@@ -77,7 +92,7 @@ docker compose up --build
 
 ### Run migration in docker
 ```bash
-docker exec -it laravel_app php artisan migrate
+docker exec laravel_app php artisan migrate
 ```
 
 Visit `http://localhost:8000` in your browser.
