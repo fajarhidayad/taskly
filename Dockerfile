@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     && docker-php-ext-configure gd \
-    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql
+    && docker-php-ext-install gd pdo pdo_pgsql pgsql
 
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs
@@ -21,15 +21,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+COPY . .
+
 COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader --no-dev
+RUN composer install --no-scripts --no-dev
 
 # Copy package files and install npm dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy Laravel files
-COPY . .
+
+RUN npm run build
 
 RUN composer dump-autoload --optimize
 
